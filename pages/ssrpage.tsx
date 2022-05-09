@@ -1,24 +1,19 @@
-import { Button, Typography } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
-import { FC } from "react";
-import StyledEmotionButton from "../components/StyledEmotionButton";
+import { Button } from "@mui/material";
+import StyledButton from "../components/StyledButton";
 
-const SSRPage: FC = () => {
+const SSRPage = () => {
   return (
     <>
-      <Typography variant='h4'>Welcome to the server!</Typography>
-      <Button type='button' variant='contained' color='primary'>
-        Server Rendered Button
+      <Button variant='contained' color='primary'>
+        Sup ssr bro
       </Button>
-      <StyledEmotionButton />
+      <StyledButton />
     </>
   );
 };
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  return {
-    props: {},
-  };
+export const getServerSideProps = () => {
+  return { props: {} };
 };
 
 export default SSRPage;
