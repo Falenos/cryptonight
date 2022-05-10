@@ -13,4 +13,7 @@ module.exports = withTM({
     };
     return config;
   },
+  images: {
+    domains: ['assets.coingecko.com'],
+  },
 });
