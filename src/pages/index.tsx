@@ -1,14 +1,14 @@
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import CoinsTable from "../components/CoinsTable";
+import CoinsTable from "../components/coins-table";
 import { CoinList } from "../../config/api";
 
 export default function Page({
   prefetchedData,
   dateTime,
 }: {
-  prefetchedData: any;
+  prefetchedData: MarketsFetchData[];
   dateTime: string;
 }) {
   return (
@@ -17,9 +17,7 @@ export default function Page({
         sx={{
           my: 5,
           display: "flex",
-          flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",
         }}>
         <Typography component='h2' color='secondary'>
           {dateTime}
@@ -34,7 +32,7 @@ export default function Page({
 // https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration
 export const getStaticProps = async () => {
   const response = await fetch(CoinList());
-  const data = await response.json();
+  const data: MarketsFetchData[] = await response.json();
   console.log("sample::", data[0]);
   const res2 = await fetch("https://worldtimeapi.org/api/ip");
   const res = await res2.json();

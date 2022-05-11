@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { CoinList } from "../../../config/api";
+import { useRouter } from "next/router";
+import Image from "next/image";
 import {
   Container,
   TableCell,
@@ -12,24 +15,15 @@ import {
   Table,
   Paper,
 } from "@mui/material";
-import CoinsTableStyled, {
-  TableRowStyled,
-  TableCellStyled,
-  TableHeadCell,
-  PaginationStyled,
-} from "./CoinsTableStyled";
-import { CoinList } from "../../config/api";
-import Image from "next/image";
+import { numberWithCommas } from "../../utils";
+import * as S from "./styled";
 
-export function numberWithCommas(x: number) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-export default function CoinsTable({
+const CoinsTable = ({
   prefetchedData,
 }: {
-  prefetchedData: { name: string; symbol: string }[];
-}) {
+  prefetchedData: MarketsFetchData[];
+}) => {
+  const router = useRouter();
   const [coins, setCoins] = useState(prefetchedData);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -54,7 +48,7 @@ export default function CoinsTable({
 
   const handleSearch = () => {
     return coins.filter(
-      (coin: { name: string; symbol: string }) =>
+      (coin: MarketsFetchData) =>
         coin.name.toLowerCase().includes(search) ||
         coin.symbol.toLowerCase().includes(search)
     );
@@ -86,50 +80,36 @@ export default function CoinsTable({
                   "24h Change",
                   "Market Cap",
                 ].map((head) => (
-                  <TableHeadCell
+                  <S.TableHeadCell
                     key={head}
                     align={head === "Coin" ? "inherit" : "right"}>
                     {head}
-                  </TableHeadCell>
+                  </S.TableHeadCell>
                 ))}
               </TableRow>
             </TableHead>
 
             <TableBody>
               {handleSearch()
-                .slice((page - 1) * 10, (page - 1) * 10 + 10)
-                .map((row: any) => {
+                .slice((page - 1) * 10, page * 10)
+                .map((row: MarketsFetchData) => {
                   const isUp = row.price_change_percentage_24h > 0;
                   return (
-                    <TableRowStyled
-                      // onClick={() => history.push(`/coins/${row.id}`)}
+                    <S.TableRow
+                      onClick={() => router.push(`/${row.id}`)}
                       key={row.name}>
-                      <TableCell
-                        component='th'
-                        scope='row'
-                        style={{
-                          display: "flex",
-                          gap: 15,
-                        }}>
+                      <S.TableCellMain component='th' scope='row'>
                         <Image
                           src={row?.image}
                           alt={row.name}
                           width='50'
                           height='50'
-                          style={{ marginBottom: 10 }}
                         />
-                        <div
-                          style={{ display: "flex", flexDirection: "column" }}>
-                          <span
-                            style={{
-                              textTransform: "uppercase",
-                              fontSize: 22,
-                            }}>
-                            {row.symbol}
-                          </span>
-                          <span style={{ color: "darkgrey" }}>{row.name}</span>
+                        <div className='coin-info-wrapper'>
+                          <span className='symbol'>{row.symbol}</span>
+                          <span className='name'>{row.name}</span>
                         </div>
-                      </TableCell>
+                      </S.TableCellMain>
                       <TableCell align='right'>
                         {"$"} {numberWithCommas(row.current_price.toFixed(2))}
                       </TableCell>
@@ -139,12 +119,12 @@ export default function CoinsTable({
                       <TableCell align='right'>
                         {"$"} {numberWithCommas(row.low_24h.toFixed(2))}
                       </TableCell>
-                      <TableCellStyled
+                      <S.TableCell
                         align='right'
                         className={`price-${isUp ? "up" : "down"}`}>
                         {isUp && "+"}
                         {row.price_change_percentage_24h.toFixed(2)}%
-                      </TableCellStyled>
+                      </S.TableCell>
                       <TableCell align='right'>
                         {"$"}{" "}
                         {numberWithCommas(
@@ -152,7 +132,7 @@ export default function CoinsTable({
                         )}
                         M
                       </TableCell>
-                    </TableRowStyled>
+                    </S.TableRow>
                   );
                 })}
             </TableBody>
@@ -160,7 +140,7 @@ export default function CoinsTable({
         )}
       </TableContainer>
 
-      <PaginationStyled
+      <S.Pagination
         count={parseInt((handleSearch()?.length / 10).toFixed(0))}
         onChange={(_, value) => {
           setPage(value);
@@ -169,4 +149,6 @@ export default function CoinsTable({
       />
     </Container>
   );
-}
+};
+
+export default CoinsTable;
