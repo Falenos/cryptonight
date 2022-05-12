@@ -34,13 +34,13 @@ export default function Page({
 export const getStaticProps = async () => {
   const response = await fetch(CoinList());
   const data: MarketsFetchData[] = await response.json();
-  console.log("sample::", data[0]);
-  const res2 = await fetch("https://worldtimeapi.org/api/ip");
-  const res = await res2.json();
+  // console.log("sample::", data[0]);
+  const timeRes = await fetch("https://worldtimeapi.org/api/ip");
+  const time = await timeRes.json();
   return {
     props: {
       prefetchedData: data,
-      dateTime: res.datetime,
+      dateTime: time.datetime,
     },
     revalidate: 20,
   };

@@ -13,7 +13,7 @@ export default function Page({
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  console.log("context::", context.params?.id);
+  // console.log("context::", context.params?.id);
   context.res.setHeader(
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
@@ -21,7 +21,7 @@ export const getServerSideProps = async (
 
   const res = await fetch(SingleCoin((context.params?.id as string) || ""));
   const coinData: CoinFetchData = await res.json();
-  console.log("data::", coinData);
+  // console.log("data::", coinData);
   return {
     props: {
       coinData,

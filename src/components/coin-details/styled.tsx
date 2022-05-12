@@ -4,6 +4,13 @@ import L from "../link";
 
 export const Container = styled.div`
   display: flex;
+  img {
+    object-fit: contain;
+  }
+
+  @media (max-width: 720px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -33,16 +40,7 @@ export const Sidebar = styled.div`
     border: none;
     padding: 0;
     width: 100%;
-  }
-`;
-
-export const SingleValue = styled(T)`
-  &.is-up {
-    color: rgb(14, 203, 129);
-  }
-
-  &.is-down {
-    color: red;
+    flex-wrap: wrap;
   }
 `;
 
@@ -56,6 +54,16 @@ export const LabelField = styled.div`
 
   .children-wrapper {
     flex-grow: 1;
+  }
+`;
+
+export const SingleValue = styled(T)`
+  &.is-up {
+    color: rgb(14, 203, 129);
+  }
+
+  &.is-down {
+    color: red;
   }
 `;
 

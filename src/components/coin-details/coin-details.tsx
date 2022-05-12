@@ -12,6 +12,10 @@ const CoinDetails = ({ coinData }: { coinData: CoinFetchData }) => {
     coinData?.market_data.market_cap.usd.toString().slice(0, -6)
   );
 
+  const repos = coinData.links?.repos_url?.github?.concat(
+    coinData.links.repos_url.bitbucket
+  );
+
   return (
     <S.Container>
       <S.Sidebar>
@@ -53,15 +57,9 @@ const CoinDetails = ({ coinData }: { coinData: CoinFetchData }) => {
         />
 
         <S.Label variant='h4'>Community</S.Label>
-        {getValue([
-          ...coinData.links.repos_url.github,
-          ...coinData.links.repos_url.bitbucket,
-        ]) && (
+        {getValue(repos) && (
           <LabelField label='Repositories'>
-            {[
-              ...coinData.links.repos_url.github,
-              ...coinData.links.repos_url.bitbucket,
-            ].map((link, idx) => (
+            {repos.map((link, idx) => (
               <S.Link key={idx} href={link} noLinkStyle target='_blank'>
                 <Typography fontFamily='Montserrat'>{link}</Typography>
               </S.Link>

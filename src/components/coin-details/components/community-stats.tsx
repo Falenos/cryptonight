@@ -7,7 +7,6 @@ const CommunityStats = ({
 }: {
   developerData: DeveloperData;
 }) => {
-  console.log(developerData);
   return (
     <div>
       {!!developerData.forks && (
