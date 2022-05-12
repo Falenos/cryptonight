@@ -13,7 +13,7 @@ export default function Page({
   dateTime: string;
 }) {
   return (
-    <Container maxWidth='xl'>
+    <>
       <Box
         sx={{
           my: 5,
@@ -25,7 +25,7 @@ export default function Page({
         </Typography>
       </Box>
       <CoinsTable prefetchedData={prefetchedData} />
-    </Container>
+    </>
   );
 }
 

@@ -71,18 +71,20 @@ const Performance = ({ marketData }: { marketData: MarketData }) => {
         label='24 hours high'
         values={marketData.high_24h.usd}
         variant='subtitle1'
+        decimals={2}
       />
       <Spacer />
       <LabelField
         label='24 hours low'
         values={marketData.low_24h.usd}
         variant='subtitle1'
+        decimals={2}
       />
       <Spacer />
       <LabelField
         label='All time high'
         values={[
-          `${formatNumber(marketData.ath.usd)}$`,
+          `${formatNumber(marketData.ath.usd, 2)}$`,
           new Date(marketData.ath_date.usd).toUTCString(),
         ]}
         variant='subtitle1'
@@ -91,7 +93,7 @@ const Performance = ({ marketData }: { marketData: MarketData }) => {
       <LabelField
         label='All time low'
         values={[
-          `$${formatNumber(marketData.atl.usd)}$`,
+          `$${formatNumber(marketData.atl.usd, 2)}$`,
           new Date(marketData.atl_date.usd).toUTCString(),
         ]}
         variant='subtitle1'

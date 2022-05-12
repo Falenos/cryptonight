@@ -337,6 +337,41 @@ interface MarketData {
   atl_date: Record<Currency & string, string>;
 }
 
+interface DeveloperData {
+  forks: number;
+  stars: number;
+  subscribers: number;
+  total_issues: number;
+  closed_issues: number;
+  pull_requests_merged: number;
+  pull_request_contributors: number;
+  code_additions_deletions_4_weeks: { additions: number; deletions: number };
+  commit_count_4_weeks: number;
+}
+
+interface CoinLinks {
+  homepage: string[];
+  blockchain_site: string[];
+  official_forum_url: string[];
+  chat_url: string[];
+  announcement_url: string[];
+  twitter_screen_name: string;
+  facebook_username: string;
+  bitcointalk_thread_identifier: number;
+  telegram_channel_identifier: number;
+  subreddit_url: string;
+  repos_url: { github: string[], bitbucket: string[] };
+}
+
+interface CommunityData {
+  facebook_likes: null | number;
+  twitter_followers: number;
+  reddit_average_posts_48h: number;
+  reddit_average_comments_48h: number;
+  reddit_subscribers: number;
+  reddit_accounts_active_48h: string;
+}
+
 interface CoinFetchData {
   id: string;
   symbol: string;
@@ -346,19 +381,7 @@ interface CoinFetchData {
   categories: string[];
   localization: object;
   description: Localization;
-  links: {
-    homepage: string[];
-    blockchain_site: string[];
-    official_forum_url: string[];
-    chat_url: string[];
-    announcement_url: string[];
-    twitter_screen_name: string;
-    facebook_username: string;
-    bitcointalk_thread_identifier: number;
-    telegram_channel_identifier: number;
-    subreddit_url: string;
-    repos_url: { github: string[], bitbucket: string[] };
-  };
+  links: CoinLinks;
   image: {
     thumb: string;
     small: string;
@@ -376,25 +399,8 @@ interface CoinFetchData {
   liquidity_score: number;
   public_interest_score: number;
   market_data: MarketData;
-  community_data: {
-    facebook_likes: null | number;
-    twitter_followers: number;
-    reddit_average_posts_48h: number;
-    reddit_average_comments_48h: number;
-    reddit_subscribers: number;
-    reddit_accounts_active_48h: string;
-  };
-  developer_data: {
-    forks: number;
-    stars: number;
-    subscribers: number;
-    total_issues: number;
-    closed_issues: number;
-    pull_requests_merged: number;
-    pull_request_contributors: number;
-    code_additions_deletions_4_weeks: { additions: number; deletions: number };
-    commit_count_4_weeks: number;
-  };
+  community_data: CommunityData;
+  developer_data: DeveloperData;
   public_interest_stats: { alexa_rank: number; bing_matches: null };
   last_updated: string;
   tickers: CoinsFetchDataTicker[];

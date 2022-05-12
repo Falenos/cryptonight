@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import * as S from "../styled";
-import { Typography } from "@mui/material";
 import { formatNumber } from "../../../utils";
 
 type BaseProps = {
@@ -10,6 +9,7 @@ type BaseProps = {
   inTheMillions?: boolean;
   href?: string | string[];
   target?: string;
+  decimals?: number;
   variant?:
     | "button"
     | "caption"
@@ -46,6 +46,7 @@ const SingleValue = ({
   href,
   target,
   variant,
+  decimals,
 }: ValueProps) => {
   const isNumber = typeof value === "number";
   const isPositive = isNumber && value > 0;
@@ -55,7 +56,9 @@ const SingleValue = ({
   if (isPositive) classes = "is-up";
   if (isNegative) classes = "is-down";
 
-  let val = isNumber ? formatNumber(value) : value;
+  let val = isNumber
+    ? formatNumber(value, decimals || isPercentage ? 2 : 0)
+    : value;
   if (val && isNumber && isColoured && isPositive) val = `+${val}`;
   return (
     <>
@@ -83,7 +86,7 @@ const LabelField = ({ label, values, children, variant, ...rest }: Props) => {
   if (Array.isArray(values)) {
     return (
       <S.LabelField>
-        <S.Label variant={variant || "h6"}>{label}:</S.Label>
+        <S.FieldLabel variant={variant || "h6"}>{label}:</S.FieldLabel>
         &nbsp; &nbsp;
         {values.map((v: string | number, i) => (
           <Fragment key={i}>
@@ -96,7 +99,7 @@ const LabelField = ({ label, values, children, variant, ...rest }: Props) => {
   }
   return (
     <S.LabelField>
-      <S.Label variant={variant || "h6"}>{label}:</S.Label>
+      <S.FieldLabel variant={variant || "h6"}>{label}:</S.FieldLabel>
       &nbsp; &nbsp;
       {children ? (
         <div className='children-wrapper'>{children}</div>

@@ -6,13 +6,13 @@ const Header = () => {
   return (
     <S.Header>
       <AppBar color='transparent' position='static'>
-        <Container maxWidth='xl'>
-          <S.Toolbar>
+        <S.Toolbar>
+          <Container maxWidth='xl'>
             <S.Link href='/' noLinkStyle>
               <Typography variant='h4'>Crypto Watch</Typography>
             </S.Link>
-          </S.Toolbar>
-        </Container>
+          </Container>
+        </S.Toolbar>
       </AppBar>
     </S.Header>
   );

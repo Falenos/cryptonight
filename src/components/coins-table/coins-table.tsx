@@ -69,7 +69,7 @@ const CoinsTable = ({
   const getPageCount = () => parseInt((getCoins().length / 10).toFixed(0));
 
   return (
-    <Container style={{ textAlign: "center" }}>
+    <Container style={{ textAlign: "center" }} maxWidth='xl'>
       <Typography variant='h4' style={{ margin: 18, fontFamily: "Montserrat" }}>
         Cryptocurrency Prices by Market Cap
       </Typography>
