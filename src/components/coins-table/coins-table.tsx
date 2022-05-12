@@ -15,7 +15,7 @@ import {
   Table,
   Paper,
 } from "@mui/material";
-import { formatNumber, hasItems } from "../../utils";
+import { formatNumber, hasItems, fetchRetry } from "../../utils";
 import * as S from "./styled";
 
 const CoinsTable = ({
@@ -31,7 +31,7 @@ const CoinsTable = ({
 
   const fetchCoins = async (batch: number) => {
     setLoading(true);
-    const response = await fetch(CoinList(batch));
+    const response = await fetchRetry(CoinList(batch));
     const data = await response.json();
 
     setCoins(coins.concat(data));

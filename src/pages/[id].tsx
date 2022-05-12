@@ -1,6 +1,7 @@
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import CoinDetails from "../components/coin-details";
 import { SingleCoin } from "../../config/api";
+import { fetchRetry } from "../utils";
 
 export default function Page({
   coinData,
@@ -17,7 +18,9 @@ export const getServerSideProps = async (
     "public, s-maxage=10, stale-while-revalidate=59"
   );
 
-  const res = await fetch(SingleCoin((context.params?.id as string) || ""));
+  const res = await fetchRetry(
+    SingleCoin((context.params?.id as string) || "")
+  );
   const coinData: CoinFetchData = await res.json();
   // console.log("data::", coinData);
   return {

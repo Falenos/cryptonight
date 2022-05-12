@@ -21,3 +21,12 @@ export function getValue(x: any) {
 export function formatDate(date: string) {
   return new Date(date).toUTCString()
 }
+
+export const fetchRetry = async (url: string, options: object = {}, n = 0): Promise<any> => {
+  try {
+    return await fetch(url, options)
+  } catch (err) {
+    if (n === 1) throw err;
+    return await fetchRetry(url, options, n - 1);
+  }
+};

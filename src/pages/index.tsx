@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import CoinsTable from "../components/coins-table";
 import { CoinList } from "../../config/api";
 import { formatDate } from "../utils";
+import { fetchRetry } from "../utils";
 
 export default function Page({
   prefetchedData,
@@ -31,10 +32,10 @@ export default function Page({
 // ISR: Static site revalidated after 20 secs
 // https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration
 export const getStaticProps = async () => {
-  const response = await fetch(CoinList());
+  const response = await fetchRetry(CoinList());
   const data: MarketsFetchData[] = await response.json();
   // console.log("sample::", data[0]);
-  const timeRes = await fetch("https://worldtimeapi.org/api/ip");
+  const timeRes = await fetchRetry("https://worldtimeapi.org/api/ip");
   const time = await timeRes.json();
   return {
     props: {

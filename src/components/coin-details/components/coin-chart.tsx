@@ -13,6 +13,7 @@ import { Line } from "react-chartjs-2";
 import { CircularProgress } from "@mui/material";
 import SelectButton from "./select-button";
 import { HistoricalChart } from "../../../../config/api";
+import { fetchRetry } from "../../../utils";
 import * as S from "../styled";
 
 ChartJS.register(
@@ -62,7 +63,7 @@ const CoinChart = ({ coin }: Props) => {
 
   useEffect(() => {
     const fetchHistoricData = async () => {
-      const res = await fetch(HistoricalChart(coin.id, days || "max"));
+      const res = await fetchRetry(HistoricalChart(coin.id, days || "max"));
       const data: CoinsFetchMarketChart = await res.json();
       setflag(true);
       setHistoricData(data.prices);
