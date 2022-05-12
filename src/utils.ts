@@ -22,7 +22,7 @@ export function formatDate(date: string) {
   return new Date(date).toUTCString()
 }
 
-export const fetchRetry = async (url: string, options: object = {}, n = 0): Promise<any> => {
+export const fetchRetry = async (url: string, options: object = {}, n = 2): Promise<any> => {
   try {
     return await fetch(url, options)
   } catch (err) {
