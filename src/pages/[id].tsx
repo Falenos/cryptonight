@@ -9,11 +9,9 @@ export default function Page({
 }
 
 // SSR for better performance and SEO
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  // console.log("context::", context.params?.id);
   context.res.setHeader(
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"

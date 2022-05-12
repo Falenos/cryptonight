@@ -75,7 +75,7 @@ const CoinChart = ({ coin }: Props) => {
     <S.CoinChart>
       <S.Label variant='h4'>Price Action</S.Label>
       {!historicData || flag === false ? (
-        <CircularProgress style={{ color: "gold" }} size={250} thickness={1} />
+        <CircularProgress style={{ color: "gold" }} thickness={1} />
       ) : (
         <>
           <Line

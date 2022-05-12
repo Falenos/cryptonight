@@ -28,8 +28,6 @@ Babel makes things much slower, was necessary for styled though.
 
 Some code splitting, type checking and code is still immature, sorry!!
 
-Did not have time to make the Chart responsive.
-
 Nextjs material-ui styled-components, new to all these, hope that my practices are not the worst! Anyway enjoy.
 
 ## Generic info
