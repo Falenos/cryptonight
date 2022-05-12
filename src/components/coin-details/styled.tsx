@@ -24,6 +24,14 @@ export const Performance = styled.div`
   flex-wrap: wrap;
 `;
 
+export const CoinChart = styled.div`
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
 export const ChartContainer = styled.div`
   /* width: 40%; */
 `;
@@ -38,7 +46,6 @@ export const Sidebar = styled.div`
 
   @media (max-width: 720px) {
     border: none;
-    padding: 0;
     width: 100%;
     flex-wrap: wrap;
   }

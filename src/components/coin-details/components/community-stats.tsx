@@ -1,5 +1,4 @@
 import React from "react";
-import * as S from "../styled";
 import LabelField from "./label-field";
 
 const CommunityStats = ({

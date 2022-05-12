@@ -5,6 +5,7 @@ import Performance from "./components/performance";
 import LabelField from "./components/label-field";
 import CommunityStats from "./components/community-stats";
 import CoinLinks from "./components/coin-links";
+import CoinChart from "./components/coin-chart";
 import * as S from "./styled";
 
 const CoinDetails = ({ coinData }: { coinData: CoinFetchData }) => {
@@ -75,7 +76,9 @@ const CoinDetails = ({ coinData }: { coinData: CoinFetchData }) => {
           dangerouslySetInnerHTML={{ __html: coinData?.description?.en }}
         />
         <Performance marketData={coinData.market_data} />
-        <S.ChartContainer />
+        <S.ChartContainer>
+          <CoinChart coin={coinData} />
+        </S.ChartContainer>
       </S.Wrapper>
     </S.Container>
   );
