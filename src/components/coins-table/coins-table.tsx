@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CoinList } from "../../../config/api";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -15,7 +15,7 @@ import {
   Table,
   Paper,
 } from "@mui/material";
-import { numberWithCommas } from "../../utils";
+import { formatNumber, hasItems } from "../../utils";
 import * as S from "./styled";
 
 const CoinsTable = ({
@@ -29,30 +29,44 @@ const CoinsTable = ({
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  // const history = useHistory();
+  const fetchCoins = async (batch: number) => {
+    setLoading(true);
+    const response = await fetch(CoinList(batch));
+    const data = await response.json();
 
-  // const fetchCoins = async () => {
-  //   setLoading(true);
-  //   const response = await fetch(CoinList());
-  //   const data = await response.json();
-  //   // console.log(data.length);
-
-  //   setCoins(data);
-  //   setLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   console.log('USE EFFECT')
-  //   fetchCoins();
-  // }, [currency]);
-
-  const handleSearch = () => {
-    return coins.filter(
-      (coin: MarketsFetchData) =>
-        coin.name.toLowerCase().includes(search) ||
-        coin.symbol.toLowerCase().includes(search)
-    );
+    setCoins(coins.concat(data));
+    setLoading(false);
   };
+
+  const handleSearch = (event: { target: { value: string } } | undefined) => {
+    const searchVal = event?.target.value || "";
+    if (searchVal !== search) setPage(1);
+    setSearch(searchVal);
+  };
+
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    triggerChecks(value);
+    window.scroll(0, 450);
+  };
+
+  const getCoins = () =>
+    coins.filter(
+      (coin: MarketsFetchData) =>
+        (coin.name?.toLowerCase() || "").includes(search) ||
+        (coin.symbol?.toLowerCase() || "").includes(search)
+    );
+
+  const getVisibleCoins = () => getCoins().slice((page - 1) * 10, page * 10);
+
+  const triggerChecks = (page: number) => {
+    const maxPage: number = hasItems(prefetchedData) ? coins.length / 10 : 10;
+    if (page >= maxPage - 1) {
+      fetchCoins(maxPage / 10 + 1);
+    }
+  };
+
+  const getPageCount = () => parseInt((getCoins().length / 10).toFixed(0));
 
   return (
     <Container style={{ textAlign: "center" }}>
@@ -60,10 +74,10 @@ const CoinsTable = ({
         Cryptocurrency Prices by Market Cap
       </Typography>
       <TextField
-        label='Search For a Crypto Currency..'
+        label='Search For a Crypto Currency. (Works only on the fetched coins)'
         variant='outlined'
         style={{ marginBottom: 20, width: "100%" }}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleSearch}
       />
       <TableContainer component={Paper}>
         {loading ? (
@@ -90,63 +104,52 @@ const CoinsTable = ({
             </TableHead>
 
             <TableBody>
-              {handleSearch()
-                .slice((page - 1) * 10, page * 10)
-                .map((row: MarketsFetchData) => {
-                  const isUp = row.price_change_percentage_24h > 0;
-                  return (
-                    <S.TableRow
-                      onClick={() => router.push(`/${row.id}`)}
-                      key={row.name}>
-                      <S.TableCellMain component='th' scope='row'>
-                        <Image
-                          src={row?.image}
-                          alt={row.name}
-                          width='50'
-                          height='50'
-                        />
-                        <div className='coin-info-wrapper'>
-                          <span className='symbol'>{row.symbol}</span>
-                          <span className='name'>{row.name}</span>
-                        </div>
-                      </S.TableCellMain>
-                      <TableCell align='right'>
-                        {"$"} {numberWithCommas(row.current_price.toFixed(2))}
-                      </TableCell>
-                      <TableCell align='right'>
-                        {"$"} {numberWithCommas(row.high_24h.toFixed(2))}
-                      </TableCell>
-                      <TableCell align='right'>
-                        {"$"} {numberWithCommas(row.low_24h.toFixed(2))}
-                      </TableCell>
-                      <S.TableCell
-                        align='right'
-                        className={`price-${isUp ? "up" : "down"}`}>
-                        {isUp && "+"}
-                        {row.price_change_percentage_24h.toFixed(2)}%
-                      </S.TableCell>
-                      <TableCell align='right'>
-                        {"$"}{" "}
-                        {numberWithCommas(
-                          row.market_cap.toString().slice(0, -6)
-                        )}
-                        M
-                      </TableCell>
-                    </S.TableRow>
-                  );
-                })}
+              {getVisibleCoins().map((row: MarketsFetchData) => {
+                const isUp = row.price_change_percentage_24h > 0;
+                return (
+                  <S.TableRow
+                    onClick={() => router.push(`/${row.id}`)}
+                    key={row.name + search}>
+                    <S.TableCellMain component='th' scope='row'>
+                      <Image
+                        src={row?.image}
+                        alt={row.name}
+                        width='50'
+                        height='50'
+                      />
+                      <div className='coin-info-wrapper'>
+                        <span className='symbol'>{row.symbol}</span>
+                        <span className='name'>{row.name}</span>
+                      </div>
+                    </S.TableCellMain>
+                    <TableCell align='right'>
+                      {"$"} {formatNumber(row.current_price, 2)}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {"$"} {formatNumber(row?.high_24h, 2)}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {"$"} {formatNumber(row.low_24h, 2)}
+                    </TableCell>
+                    <S.TableCell
+                      align='right'
+                      className={`price-${isUp ? "up" : "down"}`}>
+                      {isUp && "+"}
+                      {formatNumber(row.price_change_percentage_24h, 2)}%
+                    </S.TableCell>
+                    <TableCell align='right'>
+                      {"$"}{" "}
+                      {formatNumber(row.market_cap.toString().slice(0, -6))}M
+                    </TableCell>
+                  </S.TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         )}
       </TableContainer>
 
-      <S.Pagination
-        count={parseInt((handleSearch()?.length / 10).toFixed(0))}
-        onChange={(_, value) => {
-          setPage(value);
-          window.scroll(0, 450);
-        }}
-      />
+      <S.Pagination count={getPageCount()} onChange={handlePageChange} />
     </Container>
   );
 };

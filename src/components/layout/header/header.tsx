@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <S.Header>
       <AppBar color='transparent' position='static'>
-        <Container>
+        <Container maxWidth='xl'>
           <S.Toolbar>
             <S.Link href='/' noLinkStyle>
               <Typography variant='h4'>Crypto Watch</Typography>

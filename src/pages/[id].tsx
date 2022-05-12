@@ -8,7 +8,7 @@ import { SingleCoin } from "../../config/api";
 
 const SContainer = styled.div`
   display: flex;
-  @media (min-width: 720px) {
+  @media (max-width: 720px) {
     flex-direction: column;
     align-items: center;
   }
@@ -18,7 +18,7 @@ export default function Page({
   coinData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <Container maxWidth='lg'>
+    <Container maxWidth='xl'>
       {/* <Box
         sx={{
           my: 5,
@@ -33,6 +33,7 @@ export default function Page({
       </Box> */}
       <SContainer>
         <CoinDetails coinData={coinData} />
+        {/* <div>CHART</div> */}
       </SContainer>
     </Container>
   );

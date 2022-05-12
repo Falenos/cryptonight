@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CoinsTable from "../components/coins-table";
 import { CoinList } from "../../config/api";
+import { formatDate } from "../utils";
 
 export default function Page({
   prefetchedData,
@@ -12,7 +13,7 @@ export default function Page({
   dateTime: string;
 }) {
   return (
-    <Container maxWidth='lg'>
+    <Container maxWidth='xl'>
       <Box
         sx={{
           my: 5,
@@ -20,7 +21,7 @@ export default function Page({
           justifyContent: "center",
         }}>
         <Typography component='h2' color='secondary'>
-          {dateTime}
+          Last render at {formatDate(dateTime)}
         </Typography>
       </Box>
       <CoinsTable prefetchedData={prefetchedData} />

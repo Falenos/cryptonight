@@ -286,7 +286,6 @@ interface MarketsFetchData {
   image: string;
   current_price: number;
   market_cap: number;
-  high_24
   market_cap_rank: number;
   fully_diluted_valuation: number;
   total_volume: number;
@@ -309,6 +308,35 @@ interface MarketsFetchData {
   last_updated: Date;
 }
 
+interface MarketData {
+  current_price: Record<Currency & string, number>;
+  market_cap: Record<Currency & string, number>;
+  total_volume: Record<Currency & string, number>;
+  fully_diluted_valuation: Record<Currency & string, number>;
+  total_value_locked: {
+    btc: number
+    usd: number
+  }
+  fdv_to_tvl_ratio: number
+  mcap_to_tvl_ratio: number
+  circulating_supply: number
+  total_supply: number
+  max_supply: number
+  price_change_percentage_24h: number;
+  price_change_percentage_7d: number;
+  price_change_percentage_14d: number;
+  price_change_percentage_30d: number;
+  price_change_percentage_60d: number;
+  price_change_percentage_200d: number;
+  price_change_percentage_1y: number;
+  high_24h: Record<Currency & string, number>;
+  low_24h: Record<Currency & string, number>;
+  ath: Record<Currency & string, number>;
+  ath_date: Record<Currency & string, string>;
+  atl: Record<Currency & string, number>;
+  atl_date: Record<Currency & string, string>;
+}
+
 interface CoinFetchData {
   id: string;
   symbol: string;
@@ -318,7 +346,19 @@ interface CoinFetchData {
   categories: string[];
   localization: object;
   description: Localization;
-  links: object;
+  links: {
+    homepage: string[];
+    blockchain_site: string[];
+    official_forum_url: string[];
+    chat_url: string[];
+    announcement_url: string[];
+    twitter_screen_name: string;
+    facebook_username: string;
+    bitcointalk_thread_identifier: number;
+    telegram_channel_identifier: number;
+    subreddit_url: string;
+    repos_url: { github: string[], bitbucket: string[] };
+  };
   image: {
     thumb: string;
     small: string;
@@ -335,21 +375,7 @@ interface CoinFetchData {
   community_score: number;
   liquidity_score: number;
   public_interest_score: number;
-  market_data: {
-    current_price: Record<Currency & string, number>;
-    market_cap: Record<Currency & string, number>;
-    total_volume: Record<Currency & string, number>;
-    fully_diluted_valuation: Record<Currency & string, number>;
-    total_value_locked: {
-      btc: number
-      usd: number
-    }
-    fdv_to_tvl_ratio: number
-    mcap_to_tvl_ratio: number
-    circulating_supply: number
-    total_supply: number
-    max_supply: number
-  };
+  market_data: MarketData;
   community_data: {
     facebook_likes: null | number;
     twitter_followers: number;

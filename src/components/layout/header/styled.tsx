@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Toolbar as T } from "@mui/material";
-import L from "../../Link";
+import L from "../../link";
 
 export const Header = styled.header`
   font-family: Montserrat;

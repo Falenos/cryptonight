@@ -1,5 +1,5 @@
-export const CoinList = () =>
-  `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
+export const CoinList = (page = 1) =>
+  `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`;
 
 export const SingleCoin = (id: string) =>
   `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=true`;
