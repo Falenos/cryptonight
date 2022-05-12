@@ -37,7 +37,7 @@ export const ChartContainer = styled.div`
 `;
 
 export const Sidebar = styled.div`
-  width: 30%;
+  min-width: 30%;
   display: flex;
   flex-direction: column;
   margin-top: 25;
@@ -58,6 +58,7 @@ export const LabelField = styled.div`
   margin-bottom: 6px;
   word-wrap: break-word;
   text-overflow: ellipsis;
+  line-break: anywhere;
 
   .children-wrapper {
     flex-grow: 1;
