@@ -22,13 +22,7 @@ Contains various data fetced on the server and a coin-chart that works on the cl
 ### Issues and Stack
 
 Stack: Styled components, Material-UI v5, Babel, chart.js
-There is an issue with babel material-ui and styled-components that I was not able to solve and maybe it's not solvable at the project level. You can see a warning when running on dev mode.
-
-Babel makes things much slower, was necessary for styled though.
-
-Some code splitting, type checking and code is still immature, sorry!!
-
-Nextjs material-ui styled-components, new to all these, hope that my practices are not the worst! Anyway enjoy.
+There is an issue with babel material-ui and styled-components. You can see a warning when running on dev mode.
 
 ## Generic info
 
