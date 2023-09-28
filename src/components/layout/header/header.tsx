@@ -9,7 +9,7 @@ const Header = () => {
         <S.Toolbar>
           <Container maxWidth='xl'>
             <S.Link href='/' noLinkStyle>
-              <Typography variant='h4'>Crypto Watch</Typography>
+              <Typography variant='h4'>Cryptonight</Typography>
             </S.Link>
           </Container>
         </S.Toolbar>
