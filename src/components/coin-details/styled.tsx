@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Typography as T } from "@mui/material";
-import L from "../link";
+import L from "../Link";
 
 export const Container = styled.div`
   display: flex;
